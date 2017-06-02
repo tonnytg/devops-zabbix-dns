@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
      apt-get update
-     apt-get install -y docker vim zabbix-agent
+     apt-get install -y docker.io vim zabbix-agent
      echo "ansible" > /etc/hostname
      sed -i 's/^Server=127.0.0.1*/Server=192.168.11.100/' /etc/zabbix/zabbix_agentd.conf
      sed -i 's/^ServerActive=127.0.0.1*/ServerActive=192.168.11.100/' /etc/zabbix/zabbix_agentd.conf
