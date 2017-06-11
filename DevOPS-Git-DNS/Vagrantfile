@@ -88,7 +88,7 @@ Vagrant.configure("2") do |config|
      echo "#                                                            #"
      echo "#    Git e Jenkins  liberado                                  #"
      echo "#    Agora você pode acessar o Git                           #"
-     echo "#            http://192.168.11.103:8081                      #"
+     echo "#            http://localhost:8081                      #"
      echo "#                                                            #"
      echo "# KeyJenkins: `cat /var/lib/jenkins/secrets/initialAdminPassword` <- Key"
      echo "#                                                            #"
