@@ -71,7 +71,11 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
+   config.vm.provision "file", source: "../vagrant-devops.pub", destination: "/tmp/vagrant-devops.pub"
    config.vm.provision "shell", inline: <<-SHELL
+     echo "Garantindo acesso via Key SSH"
+     mkdir -p /root/.ssh/
+     cat /tmp/vagrant-devops.pub >> /root/.ssh/authorized_keys
      wget http://repo.zabbix.com/zabbix/3.0/debian/pool/main/z/zabbix-release/zabbix-release_3.0-1+jessie_all.deb
      dpkg -i zabbix-release_3.0-1+jessie_all.deb
      export DEBIAN_FRONTEND=noninteractive
@@ -83,6 +87,8 @@ Vagrant.configure("2") do |config|
      zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz | mysql -uzabbix -pzabbix zabbix
      sed -i 's/^;date.timezone =.*/date.timezone = America\\/Sao_Paulo;/' /etc/php5/apache2/php.ini
      sed -i 's/# DBPassword=.*/DBPassword=zabbix/' /etc/zabbix/zabbix_server.conf
+     systemctl enable zabbix-server 2>&1 >> /dev/null
+     systemctl enable zabbix-agent 2>&1 >> /dev/null
      systemctl restart zabbix-server
      grep 'date.timezone' /etc/php5/apache2/php.ini
      a2dissite 000-default && service apache2 reload

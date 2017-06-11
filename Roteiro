@@ -1,0 +1,6 @@
+1 - Ligar todas as maquinas
+2 - Cadastrar elas no Zabbix
+3 - Criar um repositorio no Git
+4 - Criar um container no Docker com Bind, o Container deve utilizar o arquivo de Zonamontado
+5 - Criar uma job no Jenkins que cada alteração pelo Git deverá ser alterado o container do Bind
+6 - Quando todo o proceso estiver funcionando, o Zabbix irá monitorar o processo e caso pare, ele reconvoca o Jenkins pela Token

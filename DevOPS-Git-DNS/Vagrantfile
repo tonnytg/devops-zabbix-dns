@@ -72,7 +72,13 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
+   config.vm.provision "file", source: "../vagrant-devops.pub", destination: "/tmp/vagrant-devops.pub"
    config.vm.provision "shell", inline: <<-SHELL
+     cat /tmp/vagrant-devops.pub
+     echo "Garantindo acesso via Key SSH"
+     mkdir -p /root/.ssh
+     cat /tmp/vagrant-devops.pub >> /root/.ssh/authorized_keys
+     sleep 2
      cd /opt
      wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
      sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
@@ -86,9 +92,10 @@ Vagrant.configure("2") do |config|
      systemctl restart zabbix-agent
      echo "##############################################################"
      echo "#                                                            #"
-     echo "#    Git e Jenkins  liberado                                  #"
+     echo "#    Git e Jenkins  liberado                                 #"
      echo "#    Agora você pode acessar o Git                           #"
-     echo "#            http://localhost:8081                      #"
+     echo "#            http://localhost:8081                           #"
+     echo "#            IP:192.168.11.103                               #"
      echo "#                                                            #"
      echo "# KeyJenkins: `cat /var/lib/jenkins/secrets/initialAdminPassword` <- Key"
      echo "#                                                            #"
