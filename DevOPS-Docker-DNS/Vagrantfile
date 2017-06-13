@@ -78,13 +78,17 @@ Vagrant.configure("2") do |config|
      mkdir -p /root/.ssh/
      cat /tmp/vagrant-devops.pub >> /root/.ssh/authorized_keys
      apt-get update
-     apt-get install -y docker.io vim zabbix-agent
+     apt-get install -y docker.io vim zabbix-agent python
      echo "ansible" > /etc/hostname
      sed -i 's/^Server=127.0.0.1*/Server=192.168.11.100/' /etc/zabbix/zabbix_agentd.conf
      sed -i 's/^ServerActive=127.0.0.1*/ServerActive=192.168.11.100/' /etc/zabbix/zabbix_agentd.conf
      sed -i 's/^Hostname=Zabbix\ Server.*/Hostname=docker/' /etc/zabbix/zabbix_agentd.conf
      systemctl enable zabbix-agent 2>&1 >> /dev/null
      systemctl restart zabbix-agent
+     echo "Baixando Container com Bind"
+     echo "Downloading : https://hub.docker.com/r/emsi/bind9/"
+     docker run --name bind9-data emsi/bind9-data
+     docker run --volumes-from bind9-data --name bind9 -p 53:53 -p 53:53/udp -d emsi/bind9
      echo "##################################################"
      echo "#                                                #"
      echo "#    Docker liberado                             #"
