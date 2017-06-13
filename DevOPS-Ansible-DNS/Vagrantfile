@@ -73,12 +73,19 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
    config.vm.provision "file", source: "../vagrant-devops.pub", destination: "/tmp/vagrant-devops.pub"
+   config.vm.provision "file", source: "../vagrant-devops", destination: "/tmp/id_rsa"
    config.vm.provision "shell", inline: <<-SHELL
      echo "Garantindo acesso via Key SSH"
      mkdir -p /root/.ssh/
      cat /tmp/vagrant-devops.pub >> /root/.ssh/authorized_keys
+     mv /tmp/id_rsa ~/.ssh/id_rsa
+     echo """
+Host *
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null
+""" > ~/.ssh/config
      apt-get update
-     apt-get install -y ansible vim zabbix-agent
+     apt-get install -y ansible vim zabbix-agent python
      echo "ansible" > /etc/hostname
      sed -i 's/^Server=127.0.0.1*/Server=192.168.11.100/' /etc/zabbix/zabbix_agentd.conf
      sed -i 's/^ServerActive=127.0.0.1*/ServerActive=192.168.11.100/' /etc/zabbix/zabbix_agentd.conf
