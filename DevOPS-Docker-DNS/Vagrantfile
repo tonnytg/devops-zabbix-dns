@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
      cat /tmp/vagrant-devops.pub >> /root/.ssh/authorized_keys
      apt-get update
      apt-get install -y docker.io vim zabbix-agent python
-     echo "ansible" > /etc/hostname
+     echo "docker" > /etc/hostname
      sed -i 's/^Server=127.0.0.1*/Server=192.168.11.100/' /etc/zabbix/zabbix_agentd.conf
      sed -i 's/^ServerActive=127.0.0.1*/ServerActive=192.168.11.100/' /etc/zabbix/zabbix_agentd.conf
      sed -i 's/^Hostname=Zabbix\ Server.*/Hostname=docker/' /etc/zabbix/zabbix_agentd.conf
